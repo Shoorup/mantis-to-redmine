@@ -130,7 +130,8 @@ namespace :redmine do
         has_many :members, :class_name => "MantisProjectUser", :foreign_key => :project_id
 
         def identifier
-          read_attribute(:name).downcase.gsub(/[^a-z0-9\-]+/, '-').slice(0, Project::IDENTIFIER_MAX_LENGTH)
+          # read_attribute(:name).downcase.gsub(/[^a-z0-9\-]+/, '-').slice(0, Project::IDENTIFIER_MAX_LENGTH)
+          "mantis_proj" + rund(1000).to_s
         end
       end
 
@@ -382,7 +383,7 @@ namespace :redmine do
           bug.bug_files.each do |file|
             a = Attachment.new :created_on => file.date_added
             a.file = file
-            a.author = User.first
+            a.author = User.find_by_id(users_map[file.user_id]}
             a.container = i
             a.save
           end
